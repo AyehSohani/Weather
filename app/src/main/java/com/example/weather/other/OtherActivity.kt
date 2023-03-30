@@ -9,7 +9,7 @@ class OtherActivity : Activity() {
     private val TAG = "A"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG, "onCreate: ${intent.extras}")
+        Log.d(TAG, "onCreate: ${intent.getStringExtra("data")}")
     }
 
     override fun onNewIntent(intent: Intent?) {

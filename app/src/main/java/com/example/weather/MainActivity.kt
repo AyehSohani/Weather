@@ -11,6 +11,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.example.weather.other.OtherActivity
@@ -33,16 +34,11 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val refreshAction = { viewModel.onRefresh() }
-                    Column {
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Button(onClick = {
-
                             val intent = Intent(this@MainActivity, OtherActivity::class.java)
-                            intent.putExtra("data", "this is data from main")
-
-                            val bundle = Bundle()
-                            bundle.putString("bundleData", "this is from main")
-
-                            startActivity(intent, bundle)
+                            intent.putExtra("data", "this is data from main intent extra")
+                            startActivity(intent)
                         }) {
                             Text(text = "Open other activity")
                         }
