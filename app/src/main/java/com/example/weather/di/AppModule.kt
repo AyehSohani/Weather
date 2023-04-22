@@ -5,6 +5,7 @@ import com.example.weather.repo.WeatherRemoteService
 import com.example.weather.repo.WeatherRepository
 import com.example.weather.usecase.GetAirPollutionUseCase
 import com.example.weather.usecase.GetWeatherDataUseCase
+import com.example.weather.usecase.TypeOfWeatherUseCase
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -37,5 +38,5 @@ fun appModule() = module {
     factory { GetWeatherDataUseCase(get()) }
     factory { GetAirPollutionUseCase(get()) }
 
-    viewModel { WeatherVM(get(), get()) }
+    viewModel { WeatherVM(get(), get(), TypeOfWeatherUseCase()) }
 }

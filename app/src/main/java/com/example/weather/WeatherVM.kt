@@ -5,6 +5,7 @@ import com.example.weather.WeatherVM.State.Loading
 import com.example.weather.repo.WeatherData
 import com.example.weather.usecase.GetAirPollutionUseCase
 import com.example.weather.usecase.GetWeatherDataUseCase
+import com.example.weather.usecase.TypeOfWeatherUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -13,6 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class WeatherVM(
     private val weatherDataUseCase: GetWeatherDataUseCase,
     private val airPollutionUseCase: GetAirPollutionUseCase,
+    private val typeOfWeather : TypeOfWeatherUseCase,
     coroutineContext: CoroutineContext? = null
 ) : BaseViewModel(coroutineContext) {
 
@@ -21,10 +23,10 @@ class WeatherVM(
         data class Loaded(
             val weatherData: WeatherData,
             val pollution: Int,
-            val location: String
+            val location: String,
+            val imageOfWeatherId : Int
         ) : State
     }
-
 
 //    private val _a : MutableList<Int> = mutableListOf()
 //    val a :List<Int> = _a
@@ -43,10 +45,12 @@ class WeatherVM(
     private fun loadData(location: String = "Manchester") {
         _state.value = Loading
         launch {
+            val weatherData = weatherDataUseCase.execute(location)
             _state.value = Loaded(
-                weatherData = weatherDataUseCase.execute(location),
+                weatherData = weatherData,
                 pollution = airPollutionUseCase.execute(),
-                location
+                location,
+                imageOfWeatherId = typeOfWeather.execute(typeOfWeather = weatherData.description.firstOrNull() ?: "sunny" )
             )
         }
     }

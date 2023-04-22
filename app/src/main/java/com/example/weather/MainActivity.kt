@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.example.weather.other.OtherActivity
-import com.example.weather.weather.ShowWeatherData
+import com.example.weather.ui.ShowWeatherData
 import com.example.weather.ui.theme.WeatherTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colors.background
                 ) {
                     val refreshAction = { viewModel.onRefresh() }
-                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
                         Button(onClick = {
                             val intent = Intent(this@MainActivity, OtherActivity::class.java)
                             intent.putExtra("data", "this is data from main intent extra")
