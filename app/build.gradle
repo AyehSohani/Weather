@@ -80,6 +80,10 @@ dependencies {
     implementation "io.insert-koin:koin-android:$koin_android_version"
     implementation "io.insert-koin:koin-androidx-compose:$koin_android_compose_version"
 
+    //lottie
+    implementation "com.airbnb.android:lottie-compose:6.0.0"
+
+
     // unit test
     testImplementation 'io.mockk:mockk:1.13.4'
     testImplementation 'junit:junit:4.13.2'

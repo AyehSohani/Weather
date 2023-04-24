@@ -1,8 +1,6 @@
 package com.example.weather.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
@@ -12,19 +10,25 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.unit.dp
 
 @Composable
-fun WeatherActions(locationChangeAction: (String) -> Unit) {
+fun WeatherActions(modifier: Modifier, locationChangeAction: (String) -> Unit, openOtherActivityAction: () -> Unit) {
     var location: String by remember {
         mutableStateOf("Manchester")
     }
 
+
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.weight(1f))
-        TextField(
+        TextField( modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+            label = {
+                    Text(text = "location")
+            },
             value = location,
             onValueChange = { location = it },
             singleLine = true,
@@ -36,10 +40,20 @@ fun WeatherActions(locationChangeAction: (String) -> Unit) {
             }),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
         )
-        Button(
-            onClick = { locationChangeAction(location) },
-        ) {
-            Text(text = "Update weather")
+        Row(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), Arrangement.SpaceEvenly) {
+            Button(
+                modifier = Modifier.weight(1f),
+                onClick = { locationChangeAction(location) },
+            ) {
+                Text(text = "Update weather")
+            }
+            Spacer(modifier = Modifier.size(16.dp))
+            Button(modifier = Modifier.weight(1f), onClick = openOtherActivityAction) {
+                Text(text = "Open other activity")
+            }
         }
     }
 }
+

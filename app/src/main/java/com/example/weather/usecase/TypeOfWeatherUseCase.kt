@@ -5,12 +5,14 @@ import com.example.weather.R
 class TypeOfWeatherUseCase {
     fun execute(typeOfWeather: String): Int {
         return when (typeOfWeather) {
-            "Sunny" -> R.drawable.sunny
-            "Rainy" -> R.drawable.rainy
-            "Cloudy" -> R.drawable.cloudy
-            "Snowing" -> R.drawable.snowing
-            "Clear" -> R.drawable.clear
-            else -> R.color.white
+            //Todo update animations
+            "Sunny" -> R.raw.windy
+            "Rainy" -> R.raw.windy
+            "Cloudy" -> R.raw.windy
+            "Snowing" -> R.raw.windy
+            "Clear" -> R.raw.windy
+            "Windy" -> R.raw.windy
+            else -> R.raw.windy
         }
     }
 }

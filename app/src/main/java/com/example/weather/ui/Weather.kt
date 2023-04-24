@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.weather.R
 import com.example.weather.WeatherVM
@@ -14,11 +15,12 @@ import com.example.weather.repo.WeatherData
 fun ShowWeatherData(
     state: State<WeatherVM.State>,
     refreshAction: () -> Unit,
+    openOtherActivityAction: () -> Unit,
     locationChangeAction: (String) -> Unit
 ) {
-    Box {
-        ShowWeatherDetails(state, refreshAction)
-        WeatherActions(locationChangeAction)
+    Column(Modifier.fillMaxSize()) {
+        ShowWeatherDetails(Modifier.weight(1f), state, refreshAction)
+        WeatherActions(Modifier,locationChangeAction, openOtherActivityAction )
     }
 }
 
@@ -35,10 +37,10 @@ fun WeatherPreview() {
                     description = listOf("Sunny"), humidity = 50, windSpeed = 15
                 ),
                 pollution = 2,
-                location = "Tehran", imageOfWeatherId = R.drawable.sunny
+                location = "Tehran", imageOfWeatherId = R.raw.rain
             )
         )
     }
     ShowWeatherData(
-        state = state, refreshAction = { /*TODO*/ }, locationChangeAction = {})
+        state = state, refreshAction = { /*TODO*/ }, locationChangeAction = {}, openOtherActivityAction = {})
 }

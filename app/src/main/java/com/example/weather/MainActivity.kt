@@ -6,10 +6,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -35,17 +33,15 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val refreshAction = { viewModel.onRefresh() }
                     Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-                        Button(onClick = {
-                            val intent = Intent(this@MainActivity, OtherActivity::class.java)
-                            intent.putExtra("data", "this is data from main intent extra")
-                            startActivity(intent)
-                        }) {
-                            Text(text = "Open other activity")
-                        }
                         ShowWeatherData(
                             state = viewModel.state.collectAsState(),
                             refreshAction = refreshAction,
-                            locationChangeAction = { viewModel.changeLocation(it) }
+                            locationChangeAction = { viewModel.changeLocation(it) },
+                            openOtherActivityAction = {
+                                val openOtherActivityIntent = Intent(this@MainActivity, OtherActivity::class.java)
+                                openOtherActivityIntent.putExtra("data", "this is data from main intent extra")
+                                startActivity(openOtherActivityIntent)
+                            }
                         )
                     }
                 }
