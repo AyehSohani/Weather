@@ -1,6 +1,5 @@
 package com.example.weather.ui
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,8 +9,8 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.Card
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,26 +22,33 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.weather.R
+import com.example.weather.WeatherVM
 
 @Composable
-fun WeatherActions(modifier: Modifier, locationChangeAction: (String) -> Unit, openOtherActivityAction: () -> Unit) {
-    var location: String by remember {
-        mutableStateOf("Manchester")
+fun WeatherActions(
+    modifier: Modifier,
+    state: State<WeatherVM.State>,
+    locationChangeAction: (String) -> Unit,
+    openOtherActivityAction: () -> Unit,
+    locationRequestAction: () -> Unit
+) {
+    var location: String by remember(key1 = state.value) {
+        mutableStateOf((state.value as? WeatherVM.State.Loaded)?.location ?: "Manchester")
     }
-
 
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start
     ) {
         Card(
+            modifier = Modifier.padding(16.dp),
             elevation = 4.dp,
             shape = RoundedCornerShape(size = 12.dp)
         ) {
             Row(
                 modifier = Modifier
                     .padding(all = 12.dp)
-                    .clickable { Toast.LENGTH_LONG },
+                    .clickable { locationRequestAction() },
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -64,7 +70,7 @@ fun WeatherActions(modifier: Modifier, locationChangeAction: (String) -> Unit, o
         }
         Spacer(modifier = Modifier.size(10.dp))
 
-        TextField(
+        OutlinedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp),
@@ -82,9 +88,11 @@ fun WeatherActions(modifier: Modifier, locationChangeAction: (String) -> Unit, o
             }),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
         )
-        Row(modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp), Arrangement.SpaceEvenly) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp), Arrangement.SpaceEvenly
+        ) {
             Button(
                 modifier = Modifier.weight(1f),
                 onClick = { locationChangeAction(location) },

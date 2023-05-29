@@ -59,8 +59,29 @@ class WeatherVM(
         }
     }
 
+    private fun loadData(lat: Double, long: Double) {
+        _state.value = Loading
+        launch {
+            val weatherData = weatherDataUseCase.execute(lat, long)
+            _state.value = Loaded(
+                weatherData = weatherData,
+                pollution = airPollutionUseCase.execute(),
+                location = weatherData.locationName,
+                imageOfWeatherId = typeOfWeather.execute(
+                    typeOfWeather = weatherData.description.firstOrNull() ?: "sunny"
+                )
+            )
+        }
+    }
+
+
     fun changeLocation(location: String) {
         _state.value = (_state.value as Loaded).copy(location = location)
         loadData(location)
     }
+
+    fun currentLocationAction(lat: Double, long: Double) {
+        loadData(lat, long)
+    }
 }
+

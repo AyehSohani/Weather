@@ -60,6 +60,8 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
 
     // retrofit for network api calls
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

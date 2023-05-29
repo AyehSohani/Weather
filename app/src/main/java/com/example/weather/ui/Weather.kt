@@ -16,11 +16,18 @@ fun ShowWeatherData(
     state: State<WeatherVM.State>,
     refreshAction: () -> Unit,
     openOtherActivityAction: () -> Unit,
-    locationChangeAction: (String) -> Unit
+    locationChangeAction: (String) -> Unit,
+    locationRequestAction: () -> Unit
 ) {
     Column(Modifier.fillMaxSize()) {
         ShowWeatherDetails(Modifier.weight(1f), state, refreshAction)
-        WeatherActions(Modifier,locationChangeAction, openOtherActivityAction )
+        WeatherActions(
+            Modifier,
+            state,
+            locationChangeAction,
+            openOtherActivityAction,
+            locationRequestAction
+        )
     }
 }
 
@@ -34,7 +41,10 @@ fun WeatherPreview() {
                 WeatherData(
                     temperature = 20,
                     feelsLike = 2,
-                    description = listOf("Sunny"), humidity = 50, windSpeed = 15
+                    description = listOf("Sunny"),
+                    humidity = 50,
+                    windSpeed = 15,
+                    locationName = "manchester"
                 ),
                 pollution = 2,
                 location = "Tehran", imageOfWeatherId = R.raw.rain
@@ -42,5 +52,10 @@ fun WeatherPreview() {
         )
     }
     ShowWeatherData(
-        state = state, refreshAction = { /*TODO*/ }, locationChangeAction = {}, openOtherActivityAction = {})
+        state = state,
+        refreshAction = { /*TODO*/ },
+        locationChangeAction = {},
+        openOtherActivityAction = {},
+        locationRequestAction = {}
+    )
 }

@@ -7,4 +7,8 @@ class GetWeatherDataUseCase(private val repository: WeatherRepository) {
     suspend fun execute(location: String): WeatherData {
         return repository.fetchWeatherDegree(location)
     } // ?
+
+    suspend fun execute(lat: Double, long: Double): WeatherData {
+        return repository.fetchWeatherDegree(lat, long)
+    } // ?
 }

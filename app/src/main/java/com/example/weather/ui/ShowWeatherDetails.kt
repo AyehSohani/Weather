@@ -148,7 +148,8 @@ fun WeatherRawDetailsPreview() {
                     feelsLike = 21,
                     description = listOf("Sunny"),
                     humidity = 50,
-                    windSpeed = 15
+                    windSpeed = 15,
+                    locationName = "manchester"
                 ), pollution = 2, location = "Tehran", imageOfWeatherId = R.raw.rain
             )
         )

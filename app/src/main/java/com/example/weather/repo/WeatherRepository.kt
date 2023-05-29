@@ -10,7 +10,20 @@ class WeatherRepository(private val service: WeatherRemoteService) {
             feelsLike = rawData.current.feelslike,
             description = rawData.current.weatherDescriptions ?: emptyList(),
             humidity = rawData.current.humidity,
-            windSpeed = rawData.current.windSpeed
+            windSpeed = rawData.current.windSpeed,
+            locationName = rawData.location.name
+        )
+    }
+
+    suspend fun fetchWeatherDegree(lat: Double, long: Double): WeatherData {
+        val rawData = service.getWeatherData("$lat,$long")
+        return WeatherData(
+            temperature = rawData.current.temperature,
+            feelsLike = rawData.current.feelslike,
+            description = rawData.current.weatherDescriptions ?: emptyList(),
+            humidity = rawData.current.humidity,
+            windSpeed = rawData.current.windSpeed,
+            locationName = rawData.location.name
         )
     }
 
@@ -25,5 +38,6 @@ data class WeatherData(
     val feelsLike: Int,
     val description: List<String>,
     val humidity: Int,
-    val windSpeed: Int
+    val windSpeed: Int,
+    val locationName: String
 )
