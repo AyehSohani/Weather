@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package com.example.weather.ui
 
 import androidx.compose.foundation.*
@@ -23,28 +25,30 @@ import com.example.weather.repo.WeatherData
 import com.example.weather.ui.theme.TransparentOnBackground
 
 @Composable
-@OptIn(ExperimentalMaterialApi::class)
 fun ShowWeatherDetails(
     modifier: Modifier,
     state: State<WeatherVM.State>, refreshAction: () -> Unit
 ) {
     val refreshing = state.value == WeatherVM.State.Loading
     val pullRefreshState = rememberPullRefreshState(refreshing, refreshAction)
-        Box(
-            modifier
-                .fillMaxSize()
-                .pullRefresh(pullRefreshState)
-        ) {
-            if (state.value is WeatherVM.State.Loaded) {
-                val weatherState = state.value as WeatherVM.State.Loaded
+
+    Box(
+        modifier
+            .fillMaxSize()
+            .pullRefresh(pullRefreshState)
+    ) {
+        if (state.value is WeatherVM.State.Loaded) {
+            val weatherState = state.value as WeatherVM.State.Loaded
+            Box {
                 val composition by rememberLottieComposition(
                     LottieCompositionSpec.RawRes(
                         weatherState.imageOfWeatherId
                     )
                 )
+
                 val progress by animateLottieCompositionAsState(
                     composition = composition,
-                    iterations = LottieConstants.IterateForever
+                    iterations = 5
                 )
 
                 LottieAnimation(
@@ -53,11 +57,25 @@ fun ShowWeatherDetails(
                     progress = { progress })
                 ShowWeatherRawDetails(modifier, weatherState)
             }
-
-            PullRefreshIndicator(
-                refreshing, pullRefreshState, Modifier.align(Alignment.TopCenter)
-            )
         }
+
+        if (refreshing) {
+            val composition by rememberLottieComposition(
+                LottieCompositionSpec.RawRes(
+                    R.raw.rainbow
+                )
+            )
+            val progress by animateLottieCompositionAsState(
+                composition = composition,
+                iterations = LottieConstants.IterateForever
+            )
+            LottieAnimation(composition = composition, progress = { progress })
+        }
+
+        PullRefreshIndicator(
+            false, pullRefreshState, Modifier.align(Alignment.TopCenter)
+        )
+    }
 }
 
 @Composable
@@ -78,7 +96,9 @@ private fun ShowWeatherRawDetails(modifier: Modifier, weatherState: WeatherVM.St
             modifier = Modifier
                 .padding(top = 2.dp, bottom = 16.dp)
                 .fillMaxWidth(),
-            columns = GridCells.Fixed(2)
+            columns = GridCells.Adaptive(120.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
             items(list) {
                 Text(

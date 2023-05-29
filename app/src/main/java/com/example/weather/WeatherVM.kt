@@ -14,7 +14,7 @@ import kotlin.coroutines.CoroutineContext
 class WeatherVM(
     private val weatherDataUseCase: GetWeatherDataUseCase,
     private val airPollutionUseCase: GetAirPollutionUseCase,
-    private val typeOfWeather : TypeOfWeatherUseCase,
+    private val typeOfWeather: TypeOfWeatherUseCase,
     coroutineContext: CoroutineContext? = null
 ) : BaseViewModel(coroutineContext) {
 
@@ -24,7 +24,7 @@ class WeatherVM(
             val weatherData: WeatherData,
             val pollution: Int,
             val location: String,
-            val imageOfWeatherId : Int
+            val imageOfWeatherId: Int
         ) : State
     }
 
@@ -39,10 +39,12 @@ class WeatherVM(
     }
 
     fun onRefresh() {
-        loadData()
+        if (state.value is Loaded) {
+            loadData((state.value as Loaded).location)
+        } else loadData()
     }
 
-    private fun loadData(location: String = "Manchester") {
+    private fun loadData(location: String = " Manchester ") {
         _state.value = Loading
         launch {
             val weatherData = weatherDataUseCase.execute(location)
@@ -50,7 +52,9 @@ class WeatherVM(
                 weatherData = weatherData,
                 pollution = airPollutionUseCase.execute(),
                 location,
-                imageOfWeatherId = typeOfWeather.execute(typeOfWeather = weatherData.description.firstOrNull() ?: "sunny" )
+                imageOfWeatherId = typeOfWeather.execute(
+                    typeOfWeather = weatherData.description.firstOrNull() ?: "sunny"
+                )
             )
         }
     }

@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        compose_ui_version = '1.2.0'
+        compose_ui_version = '1.4.3'
         koin_android_version = '3.3.3'
         koin_android_compose_version = '3.4.2'
     }
@@ -8,5 +8,5 @@ buildscript {
 plugins {
     id 'com.android.application' version '7.4.1' apply false
     id 'com.android.library' version '7.4.1' apply false
-    id 'org.jetbrains.kotlin.android' version '1.7.0' apply false
+    id 'org.jetbrains.kotlin.android' version '1.8.21' apply false
 }
